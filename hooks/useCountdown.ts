@@ -38,9 +38,9 @@ export function useCountdown(targetTime: Date) {
     // Ms를 "HH:MM:SS" 형식으로 변환
     const formatTime = (ms: number) => {
         const totalSec = Math.floor(ms / 1000); //전체 시간을 초 단위로 변환
-        const hours = Math.floor(totalSec / 3600); 
-        const minutes = Math.floor((totalSec % 3600) / 60); 
-        const seconds = totalSec % 60; // 분 단위로 환산 후 나머지 초 계산 
+        const hours = Math.floor(totalSec / 3600); // 60초 * 60분 = 1시간
+        const minutes = Math.floor((totalSec % 3600) / 60); // 1시간으로 나눈 나머지 초 단위를 60(1초)로 나눈 몫
+        const seconds = totalSec % 60; // 60초(1분)로 나눈 나머지 
         return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
 

@@ -4,9 +4,13 @@
 import BookingWait from "@/components/booking/BookingWait";
 import { useCountdown } from "@/hooks/useCountdown";
 import { Step } from "@/types/step";
+import { useRouter } from "next/navigation"; 
 import { useRef, useState } from "react";
 
 export default function Home() {
+
+  const router = useRouter();
+
 
   const COUNTDOWN_SECONDS = 10;
 
@@ -50,6 +54,14 @@ export default function Home() {
           <p className="text-4xl font-mono">
             {reactionMs} ms
           </p>
+          <div>
+            <button 
+              type="button"
+              className="mt-40 px-8 py-4 rounded text-lg border-2 cursor-pointer "
+              onClick={()=>router.push("/seat")}>
+              좌석 선택하기
+            </button>
+          </div>
         </div>
       )}
     </div>
