@@ -14,7 +14,7 @@ type SeatGridProps = {
 export default function SeatGrid({seats, cols, onSeatClick} : SeatGridProps) {
 
     return(
-        <div className={`grid gap-2`}style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+        <div className={`grid gap-1`}style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
            {
             seats.map((seat) => (
                 <Seat 

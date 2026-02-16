@@ -3,55 +3,116 @@
 
 
 import CaptchaGate from "@/components/booking/CaptchaGate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { SeatType } from "@/types/seat";
+import { GameStatus, SeatType } from "@/types/seat";
 import SeatGrid from "@/components/seat/SeatGrid";
 
 Modal.setAppElement("body"); // 접근성 경고 방지
 
 
-  //좌석 생성 함수
+  //좌석 생성 함수 & 10%w좌석 감소 시작
   const generateSeats = ():SeatType[]=>{
     const seats:SeatType[] = [];
+
     for(let r=0; r<10; r++){
-      for(let c=0; c<10; c++){
+      for(let c=0; c<30; c++){
         seats.push({
           seatNum: `${r}-${c}`,
           grade: "S",
-          status: "available",
+          status: Math.random() < 0.30 ? "taken" : "available", 
         });
       }
     }
+
     return seats;
   }
 
 export default function SeatPage() {
   const [captchaPassed, setCaptchaPassed] = useState(false)
   const [seats, setSeats] = useState<SeatType[]>(generateSeats());
+  // 좌석 예약 게임
+  const [timeLeft, setTimeLeft] = useState(4);
+  const [gameStatus, setGameStatus] = useState<GameStatus>("ready");
+
+
+    useEffect(() => {
+    if (gameStatus !== "running") return;
+
+    if (seats.some((seat) => seat.status === "selected")) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setGameStatus("success");
+      alert("예약 성공! 🎉")
+    }
+  }, [seats, gameStatus]);
+
+
+  useEffect(()=>{
+  
+  if (gameStatus !== "running") return;
+
+
+ const gameTimer = setInterval(() => {
+
+  setTimeLeft(prev => {
+    const newTime = prev - 1;
+    const progress = (10 - prev) / 10;
+    const probability = 0.05 + progress * 0.5; 
+
+    // 좌석 랜덤 상태 변경(sold out 시뮬레이션)
+    setSeats(prevSeats => {
+      return prevSeats.map(seat => {
+        if (seat.status === "available" && Math.random() < probability) {
+          return { ...seat, status: "taken" };
+        }
+        return seat;
+      });
+    });
+
+    // 실패 조건 
+      if (newTime <= 0) {
+          setGameStatus("fail");
+          alert("sold out... 😢");
+          return 0;
+        }
+
+        return newTime;
+  });
+}, 1000);
+return () => clearInterval(gameTimer);
+
+  },[gameStatus]) 
+
+
+
+
+
 
   const handleSeatClick = (seatNum: string) => {
     setSeats((prevSeats) =>
-      prevSeats.map((seat) =>
-        seat.seatNum === seatNum
-          ? {
-              ...seat,
-              status: 
-              seat.status === "selected" ? "available" : "selected",
-            }
-          : seat
-      )
+      prevSeats.map((seat) => {
+        if (seat.seatNum === seatNum && seat.status === "available") {
+          return {
+            ...seat,
+            status: "selected",
+          };
+        }
+        if (seat.seatNum === seatNum && seat.status === "taken") {
+          alert("이미 선택된 좌석입니다.");
+        }
+        return seat;
+      })
     );
   }
 
 
   return( 
-    <div className="p-10">
+    <div className="p-12 w-full h-screen flex flex-col items-center">
       {
         captchaPassed && (
           <SeatGrid 
             seats={seats} 
-            cols={10} 
+            cols={20} 
             onSeatClick={handleSeatClick}
           />
         )
@@ -64,7 +125,7 @@ export default function SeatPage() {
         overlayClassName="fixed inset-0 bg-black/50"
         className="bg-white p-6 rounded shadow w-80 mx-auto mt-40"
       >
-        <CaptchaGate onSuccess={()=>setCaptchaPassed(true)} />
+        <CaptchaGate onSuccess={()=>{setCaptchaPassed(true); setGameStatus("running");}} />
       </Modal>
        
     </div>

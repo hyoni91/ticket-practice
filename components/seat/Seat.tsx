@@ -19,10 +19,10 @@ export default function Seat({seat, onClick} : SeatProps) {
     }
 
     return(
-        <div className={`${getColor()} w-10 h-8 text-xs flex items-center justify-center text-white cursor-pointer hover:opacity-80`}
+        <div className={`${getColor()} w-3 h-3 text-xs flex items-center justify-center text-white cursor-pointer hover:opacity-80`}
             onClick={() => onClick(seat.seatNum)}
         >
-            {seat.seatNum}
+            {/* {seat.seatNum} */}
         </div>
     )
 }

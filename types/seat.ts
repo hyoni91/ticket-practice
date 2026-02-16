@@ -6,3 +6,7 @@ export type SeatType = {
     grade : "S" | "R" | "V"; //좌석 등급
     status : SeatStatus; //좌석 상태
 }
+
+
+//좌석 예약 게임 상태
+export type GameStatus = "ready" | "running" | "success" | "fail";
