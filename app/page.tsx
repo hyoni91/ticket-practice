@@ -36,9 +36,9 @@ export default function Home() {
     }
 
   return (
-    <div className="flex flex-row min-h-screen items-center justify-between p-20  bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex flex-col md:flex-row min-h-screen items-center justify-between p-20 bg-zinc-50 font-sans dark:bg-black">
      <div>
-      <h1 className="text-4xl font-bold mt-20">티켓 예매 연습용 사이트</h1>
+      <h1 className="text-4xl font-bold mt-20">NOL Ticket Practice</h1>
      </div>
      {step === "WAIT" && (
         <BookingWait
@@ -50,16 +50,16 @@ export default function Home() {
 
       {step === "RESULT" && (
         <div className="text-center">
-          <h2 className="text-2xl mb-4">반응속도</h2>
+          <h2 className="text-2xl mb-4">Your Speed</h2>
           <p className="text-4xl font-mono">
             {reactionMs} ms
           </p>
           <div>
             <button 
               type="button"
-              className="mt-40 px-8 py-4 rounded text-lg border-2 cursor-pointer "
+              className="mt-60 px-8 py-4 rounded text-lg border-2 cursor-pointer hover:bg-blue-500 hover:text-white transition"
               onClick={()=>router.push("/seat")}>
-              좌석 선택하기
+              Select Seats
             </button>
           </div>
         </div>

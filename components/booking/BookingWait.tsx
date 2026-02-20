@@ -1,7 +1,5 @@
 "use client";
 
-
-
 type Props = {
   remainingText: string; // e.g., "00:15:30"
   isOpen: boolean; 
@@ -16,10 +14,10 @@ export default function BookingWait({
 
   return (
     <div className="flex flex-col items-center justify-center gap-6">
-      <h1 className="text-2xl font-bold">선예매 대기 중</h1>
+      <h1 className="text-2xl font-bold">Pre-sale</h1>
 
       <p className="text-lg text-gray-400">
-        예매 시작까지
+        Booking Opens In
       </p>
 
       <div className="text-4xl font-mono">
@@ -36,7 +34,7 @@ export default function BookingWait({
               : "bg-gray-600 text-gray-400 cursor-not-allowed"
           }`}
       >
-        예매시작하기
+        On Sale Now
       </button>
     </div>
   );

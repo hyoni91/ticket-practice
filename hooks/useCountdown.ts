@@ -11,28 +11,28 @@ export function useCountdown(targetTime: Date) {
     const openedRef = useRef(false); // 오픈 여부 확인 
     const openAtRef = useRef<number | null>(null); // 예매창이 열린 순간 기록
 
-
     useEffect(()=>{
-        const timer = setInterval(()=>{
+        const update = ()=>{
             const now = new Date().getTime();
-            const diff = targetTime.getTime() - now; // 남은 시간 계산
-
+            const diff = targetTime.getTime() - now;
             if(diff <= 0){
                 setRemainingMs(0);
-                setIsOpen(true);
-
                 if(!openedRef.current){ // 처음 오픈되는 순간 기록
                     openedRef.current = true; // 오픈 상태로 변경
                     openAtRef.current = performance.now(); // 예매창이 열린 순간 기록
+                    setIsOpen(true); // 예매창 오픈 상태로 변경
                 }
-            } else {
-                setRemainingMs(diff); // 남은 시간 업데이트
+                clearInterval(timer); // 타이머 정리
+            }else{
+                setRemainingMs(diff);
             }
-        }, 50); // 50ms 간격으로 업데이트 --> 1초당 20번 업데이트
+        }
+        update(); // 컴포넌트가 마운트될 때 즉시 실행하여 초기 상태 설정
+
+        const timer = setInterval(update, 16); // 16ms => 1프레임정도 간격으로 업데이트 
 
         return () => clearInterval(timer);
-
-    },[targetTime]); // targetTime이 변경될 때마다 실행
+    },[targetTime])
 
     
     // Ms를 "HH:MM:SS" 형식으로 변환
@@ -45,7 +45,7 @@ export function useCountdown(targetTime: Date) {
     }
 
     return {
-    remainingText: isOpen ? "00:00" : formatTime(remainingMs),
+    remainingText: formatTime(remainingMs),
     isOpen,
     openAtRef, 
   };

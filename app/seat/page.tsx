@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { GameStatus, SeatType } from "@/types/seat";
 import SeatGrid from "@/components/seat/SeatGrid";
+import Link from "next/link";
 
 Modal.setAppElement("body"); // 접근성 경고 방지
 
@@ -42,7 +43,7 @@ export default function SeatPage() {
     if (seats.some((seat) => seat.status === "selected")) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setGameStatus("success");
-      alert("예약 성공! 🎉")
+      alert("Success! 🎉")
     }
   }, [seats, gameStatus]);
 
@@ -98,7 +99,7 @@ return () => clearInterval(gameTimer);
           };
         }
         if (seat.seatNum === seatNum && seat.status === "taken") {
-          alert("이미 선택된 좌석입니다.");
+          alert("This seat is no longer available.");
         }
         return seat;
       })
@@ -127,7 +128,21 @@ return () => clearInterval(gameTimer);
       >
         <CaptchaGate onSuccess={()=>{setCaptchaPassed(true); setGameStatus("running");}} />
       </Modal>
-       
+      
+      {
+        gameStatus === "fail" &&  (
+        <Link href="/" className="mt-10 p-2 text-xl text-gray-500 border-2 rounded cursor-pointer hover:bg-blue-500 hover:text-white transition">
+         Go Home
+        </Link>
+        )
+      }
+      {
+        gameStatus === "success" && (
+        <Link href="/" className="mt-10 p-2 text-xl  text-gray-500 border-2 rounded cursor-pointer hover:bg-blue-500 hover:text-white transition">
+         Go Home
+        </Link>
+        )
+      }
     </div>
   )
 }

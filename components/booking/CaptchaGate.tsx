@@ -1,6 +1,7 @@
 /** bot 방지  */
 "use client"
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react"
 
 
@@ -70,7 +71,7 @@ export default function CaptchaGate({ onSuccess }: Props){
                 onClick={()=>handleSubmit()}
                 className="mt-4 pr-2"
             >
-                인증하기
+                Submit
             </button>
             </div>
 
