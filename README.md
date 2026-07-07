@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+## 🎫 Ticket Practice App
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 概要
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+韓国のコンサートチケット予約を想定した練習用Webアプリです。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+BTSをはじめとする人気アーティストのチケットは数秒で完売することも多いため、実際のチケット争奪戦に近い環境で座席選択の練習ができるように開発しました。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Botチェックを通過した後、制限時間内に空いている座席を素早く選択することで、実際のチケット予約に近い体験ができます。
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ✨ Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* タイマーを利用したチケット予約シミュレーション
+* Reactコンポーネントによる座席レイアウトの構築
+* CSS Gridを利用した座席配置
+* 時間経過に応じてSoldOut率が上昇する座席シミュレーション
+* Botチェック後にゲーム開始
+* 座席の状態管理（available / selected / taken）
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 💡 Implementation
+
+* `Seat`コンポーネントで1つの座席を管理
+* `SeatGrid`コンポーネントで座席をGridレイアウトとして描画
+* `Page`コンポーネントでゲーム全体の状態を管理
+* `useEffect`と`setInterval`を利用し、時間経過とともに座席が徐々にSoldOutになる仕組みを実装
+* `useState`を利用してゲームの成功・失敗や座席状態を管理
+
+---
+
+## 🌐 Demo
+
+実際にアプリを体験できます。
+
+🔗 [ticket-practice](https://ticket-practice-mu.vercel.app/)
